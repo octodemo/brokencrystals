@@ -1,10 +1,10 @@
-name: Security Workflow
+name: Security Compliance Workflow
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [ main ]
   pull_request:
-    branches: [ master, main ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -79,5 +79,5 @@ jobs:
       uses: GeekMasher/advanced-security-compliance@1.1
       with:
         token: ${{ secrets.OCTODEMOBOT_SECURITY_AND_SOFTWARE_COMPOSITION_TOKEN }}
-        policy: GeekMasher/security-queries
+        policy: ghas-policy/security-queries
         policy-path: policies/default.yml
