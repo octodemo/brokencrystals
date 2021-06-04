@@ -81,3 +81,4 @@ jobs:
         token: ${{ secrets.OCTODEMOBOT_SECURITY_AND_SOFTWARE_COMPOSITION_TOKEN }}
         policy: octodemo/ghas-policy
         policy-path: policies/conditions.yml
+        argvs: '--display --action continue'
