@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { spawn } from 'child_process';
+import * as shellQuote from 'shell-quote';
 import * as dotT from 'dot';
 import { parseXml } from 'libxmljs';
 import { AppConfig } from './app.config.api';
@@ -112,7 +113,8 @@ export class AppController {
 
     return new Promise((res, rej) => {
       try {
-        const [exec, ...args] = command.split(' ');
+        const parsedCommand = shellQuote.parse(command);
+        const [exec, ...args] = parsedCommand;
         const ps = spawn(exec, args);
 
         ps.stdout.on('data', (data: Buffer) => {
