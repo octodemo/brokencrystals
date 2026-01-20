@@ -64,11 +64,17 @@ export class FileController {
     description: 'save raw content on server as a file',
   })
   @Put('raw')
-  async uploadFile(@Query('path') file, @Body() raw: Buffer): Promise<void> {
+  async uploadFile(@Query('path') filePath: string, @Body() raw: Buffer): Promise<void> {
+    const SAFE_ROOT = '/safe/root/directory';
     try {
       if (typeof raw === 'string' || Buffer.isBuffer(raw)) {
-        await fs.promises.access(path.dirname(file), W_OK);
-        await fs.promises.writeFile(file, raw);
+        const resolvedPath = path.resolve(SAFE_ROOT, filePath);
+        if (!resolvedPath.startsWith(SAFE_ROOT)) {
+          this.logger.error('Invalid file path');
+          return;
+        }
+        await fs.promises.access(path.dirname(resolvedPath), W_OK);
+        await fs.promises.writeFile(resolvedPath, raw);
       }
     } catch (err) {
       this.logger.error(err.message);
